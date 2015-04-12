@@ -1,6 +1,6 @@
 static final int SODA = 1, BEER = 2, COFFEE = 3, 
 VANILLA = 4, CHOCOLATE = 5, SOFT_SERVE = 6, 
-CHOCOLATE_SAUCE = 7, CARAMEL_SAUCE = 8, WHIPPED_CREAM = 9, 
+CARAMEL_SAUCE = 7, CHOCOLATE_SAUCE = 8, WHIPPED_CREAM = 9, 
 START_SCREEN = 0, PLAYING = 1, GAME_OVER = 2, 
 ORDER_SCREEN = 1, DRINK_SCREEN = 2, ICE_CREAM_SCREEN = 3, 
 TOPPING_SCREEN = 4, FAIL_SCREEN = 5, SUCCESS_SCREEN = 6, 
@@ -87,7 +87,6 @@ void drawScreen() {
   switch(screen) {
   case ORDER_SCREEN:
   case FAIL_SCREEN:
-    text(currentOrder.drink + " " + currentOrder.iceCream + " " + currentOrder.topping, 100, 25);
   case SUCCESS_SCREEN:
   case LEVEL_UP_SCREEN:
     image(screens[screen], 0, 0);
@@ -105,6 +104,16 @@ void drawScreen() {
     image(screens[screen], 0, 0);
     break;
   }
+  
+  if (screen == ORDER_SCREEN || screen == FAIL_SCREEN) {
+    drawOrder();
+  }
+}
+
+void drawOrder() {
+  image(orderIcons[currentOrder.drink], 92, 36);
+  image(orderIcons[currentOrder.iceCream + 3], 120, 36);
+  image(orderIcons[currentOrder.topping + 6], 150, 36);
 }
 
 void drawDrink() {
