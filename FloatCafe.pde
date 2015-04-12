@@ -53,15 +53,15 @@ void setup() {
   glassLayers[CHOCOLATE_SAUCE] = loadImage("data/chocolate_sauce.png");
   glassLayers[WHIPPED_CREAM] = loadImage("data/whip.png");
   
-  orderIcons[SODA] = loadImage("data/colaIcon.png");
-  orderIcons[BEER] = loadImage("data/beerIcon.png");
-  orderIcons[COFFEE] = loadImage("data/coffeeIcon.png");
-  orderIcons[VANILLA] = loadImage("data/colaIcon.png");
-  orderIcons[CHOCOLATE] = loadImage("data/beerIcon.png");
-  orderIcons[SOFT_SERVE] = loadImage("data/coffeeIcon.png");
-  orderIcons[CARAMEL_SAUCE] = loadImage("data/colaIcon.png");
-  orderIcons[CHOCOLATE_SAUCE] = loadImage("data/beerIcon.png");
-  orderIcons[WHIPPED_CREAM] = loadImage("data/coffeeIcon.png");
+  orderIcons[SODA] = loadImage("data/cola_icon.png");
+  orderIcons[BEER] = loadImage("data/beer_icon.png");
+  orderIcons[COFFEE] = loadImage("data/coffee_icon.png");
+  orderIcons[VANILLA] = loadImage("data/cola_icon.png");
+  orderIcons[CHOCOLATE] = loadImage("data/beer_icon.png");
+  orderIcons[SOFT_SERVE] = loadImage("data/coffee_icon.png");
+  orderIcons[CARAMEL_SAUCE] = loadImage("data/cola_icon.png");
+  orderIcons[CHOCOLATE_SAUCE] = loadImage("data/beer_icon.png");
+  orderIcons[WHIPPED_CREAM] = loadImage("data/coffee_icon.png");
 }
 
 void draw() {
