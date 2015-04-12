@@ -1,6 +1,6 @@
 static final int SODA = 1, BEER = 2, COFFEE = 3, 
-VANILLA = 1, CHOCOLATE = 2, SOFT_SERVE = 3, 
-CHOCOLATE_SAUCE = 1, CARAMEL_SAUCE = 2, WHIPPED_CREAM = 3, 
+VANILLA = 4, CHOCOLATE = 5, SOFT_SERVE = 6, 
+CHOCOLATE_SAUCE = 7, CARAMEL_SAUCE = 8, WHIPPED_CREAM = 9, 
 START_SCREEN = 0, PLAYING = 1, GAME_OVER = 2, 
 ORDER_SCREEN = 1, DRINK_SCREEN = 2, ICE_CREAM_SCREEN = 3, 
 TOPPING_SCREEN = 4, FAIL_SCREEN = 5, SUCCESS_SCREEN = 6, 
@@ -22,8 +22,7 @@ int level;
 int screen = 0;
 int screenTime;
 
-PImage[] orderIcons, glassLayers, screens = new PImage[9];
-PImage ui, glass;
+PImage[] orderIcons = new PImage[10], glassLayers = new PImage[10], screens = new PImage[9];
 
 boolean oneDown, twoDown, threeDown;
 
@@ -42,6 +41,27 @@ void setup() {
   screens[FAIL_SCREEN] = loadImage("data/serve_fail.png");
   screens[GAME_OVER_SCREEN] = loadImage("data/game_over.png");
   screens[LEVEL_UP_SCREEN] = loadImage("data/level_complete.png");
+  
+  glassLayers[0] = loadImage("data/glass.png");
+  glassLayers[SODA] = loadImage("data/cola.png");
+  glassLayers[COFFEE] = loadImage("data/coffee.png");
+  glassLayers[BEER] = loadImage("data/beer.png");
+  glassLayers[VANILLA] = loadImage("data/vanilla.png");
+  glassLayers[CHOCOLATE] = loadImage("data/chocolate.png");
+  glassLayers[SOFT_SERVE] = loadImage("data/softserve.png");
+  glassLayers[CARAMEL_SAUCE] = loadImage("data/caramel_sauce.png");
+  glassLayers[CHOCOLATE_SAUCE] = loadImage("data/chocolate_sauce.png");
+  glassLayers[WHIPPED_CREAM] = loadImage("data/whip.png");
+  
+  orderIcons[SODA] = loadImage("data/colaIcon.png");
+  orderIcons[BEER] = loadImage("data/beerIcon.png");
+  orderIcons[COFFEE] = loadImage("data/coffeeIcon.png");
+  orderIcons[VANILLA] = loadImage("data/colaIcon.png");
+  orderIcons[CHOCOLATE] = loadImage("data/beerIcon.png");
+  orderIcons[SOFT_SERVE] = loadImage("data/coffeeIcon.png");
+  orderIcons[CARAMEL_SAUCE] = loadImage("data/colaIcon.png");
+  orderIcons[CHOCOLATE_SAUCE] = loadImage("data/beerIcon.png");
+  orderIcons[WHIPPED_CREAM] = loadImage("data/coffeeIcon.png");
 }
 
 void draw() {
@@ -58,13 +78,17 @@ void draw() {
     drawGameOver(); 
     break;
   }
+  
+  fill(#ff0000);
+  stroke(#ff0000);
 }
 
 void drawScreen() {
   switch(screen) {
   case ORDER_SCREEN:
-  case SUCCESS_SCREEN:
   case FAIL_SCREEN:
+    text(currentOrder.drink + " " + currentOrder.iceCream + " " + currentOrder.topping, 100, 25);
+  case SUCCESS_SCREEN:
   case LEVEL_UP_SCREEN:
     image(screens[screen], 0, 0);
     screenTime--;
@@ -76,11 +100,23 @@ void drawScreen() {
         screen = DRINK_SCREEN;
       }
     }
-    break;
   default:
+    drawDrink();
     image(screens[screen], 0, 0);
     break;
   }
+}
+
+void drawDrink() {
+  if (state != PLAYING) return;
+  
+  if (step > 0 || screen == FAIL_SCREEN || screen == SUCCESS_SCREEN)
+    image(glassLayers[mixing.drink], 320, 0);
+  if (step > 1 || screen == FAIL_SCREEN || screen == SUCCESS_SCREEN)
+    image(glassLayers[mixing.iceCream + 3], 320, 0);
+  if (screen == FAIL_SCREEN || screen == SUCCESS_SCREEN)
+    image(glassLayers[mixing.topping + 6], 320, 0);
+  image(glassLayers[0], 320, 0);
 }
 
 void drawGameOver() {
