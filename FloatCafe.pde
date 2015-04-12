@@ -6,6 +6,8 @@ ORDER_SCREEN = 1, DRINK_SCREEN = 2, ICE_CREAM_SCREEN = 3,
 TOPPING_SCREEN = 4, FAIL_SCREEN = 5, SUCCESS_SCREEN = 6, 
 LEVEL_UP_SCREEN = 7, GAME_OVER_SCREEN = 8;
 
+static final int ORDER_TIME = 120, FAIL_TIME = 90, SUCCESS_TIME = 60, LEVEL_UP_TIME = 60;
+
 ArrayList<Drink> orders = new ArrayList<Drink>();
 
 Drink mixing = new Drink();
@@ -56,12 +58,12 @@ void setup() {
   orderIcons[SODA] = loadImage("data/cola_icon.png");
   orderIcons[BEER] = loadImage("data/beer_icon.png");
   orderIcons[COFFEE] = loadImage("data/coffee_icon.png");
-  orderIcons[VANILLA] = loadImage("data/cola_icon.png");
-  orderIcons[CHOCOLATE] = loadImage("data/beer_icon.png");
-  orderIcons[SOFT_SERVE] = loadImage("data/coffee_icon.png");
-  orderIcons[CARAMEL_SAUCE] = loadImage("data/cola_icon.png");
-  orderIcons[CHOCOLATE_SAUCE] = loadImage("data/beer_icon.png");
-  orderIcons[WHIPPED_CREAM] = loadImage("data/coffee_icon.png");
+  orderIcons[VANILLA] = loadImage("data/vanilla_icon.png");
+  orderIcons[CHOCOLATE] = loadImage("data/chocolate_icon.png");
+  orderIcons[SOFT_SERVE] = loadImage("data/softserve_icon.png");
+  orderIcons[CARAMEL_SAUCE] = loadImage("data/caramel_sauce_icon.png");
+  orderIcons[CHOCOLATE_SAUCE] = loadImage("data/chocolate_sauce_icon.png");
+  orderIcons[WHIPPED_CREAM] = loadImage("data/whip_icon.png");
 }
 
 void draw() {
@@ -92,8 +94,8 @@ void drawScreen() {
     image(screens[screen], 0, 0);
     screenTime--;
     if (screenTime == 0) {
-      if (screen == SUCCESS_SCREEN) {
-        screenTime =  320 / (level + 1);
+      if (screen == SUCCESS_SCREEN || screen == LEVEL_UP_SCREEN) {
+        screenTime =  (int)(ORDER_TIME / (level + 1));
         screen = ORDER_SCREEN;
       } else {
         screen = DRINK_SCREEN;
@@ -136,6 +138,8 @@ void reset() {
   score = 0;
   level = 0;
   state = PLAYING;
+  screenTime = (int)(ORDER_TIME / (level + 1));
+  screen = ORDER_SCREEN;
   createDrinks();
   println("Order: "
     + currentOrder.drink + " "
@@ -149,8 +153,6 @@ void createDrinks() {
   expenses = 0;
   step = 0;
   fails = 0;
-  screenTime = 320 / (level + 1);
-  screen = ORDER_SCREEN;
   Drink d = null;
   for (int drinks = level * 2 + 3; drinks > 0; drinks--) {
     d = new Drink();
@@ -166,6 +168,7 @@ void levelUp() {
   level++;
   score = bonus() + score();
   screen = LEVEL_UP_SCREEN;
+  screenTime = LEVEL_UP_TIME;
   createDrinks();
 }
 
@@ -185,7 +188,7 @@ void next() {
   }
 
   currentOrder = orders.get(orders.size() - 1);
-  screenTime = 320 / (level + 1);
+  screenTime = SUCCESS_TIME;
   screen = SUCCESS_SCREEN;
 }
 
@@ -223,7 +226,7 @@ void addIngredient(int ingredient) {
       fails++;
       currentOrder.fails++;
       screen = FAIL_SCREEN;
-      screenTime =  320 / (level + 1);
+      screenTime =  (int)(FAIL_TIME / sqrt(level + 1));
 
       if (fails == 3) {
         changeState();
