@@ -15,6 +15,7 @@ int income;
 int state = START_SCREEN;
 int topScore;
 int fails;
+int level;
 
 PImage[] orderIcons, glassLayers, screens;
 PImage ui, glass;
@@ -35,7 +36,7 @@ void reset() {
   score = 0;
   level = 0;
   state = PLAYING;
-  startLevel();
+  createDrinks();
       println("Order: "
       + currentOrder.drink + " "
       + currentOrder.iceCream + " "
@@ -48,14 +49,15 @@ void createDrinks() {
   expenses = 0;
   step = 0;
   fails = 0;
+  Drink d = null;
   for (int drinks = level * 2 + 3; drinks > 0; drinks--) {
-    Drink d = new Drink();
+    d = new Drink();
     d.drink = (int)random(3) + 1;
     d.iceCream = (int)random(3) + 1;
     d.topping = (int)random(3) + 1;
     orders.add(d);
-    currentOrder = d;
   }
+  currentOrder = d;
 }
 
 void levelUp() {
@@ -75,7 +77,7 @@ int score() {
 void next() {
   orders.remove(orders.size() - 1);
   if (orders.isEmpty()) {
-    changeState();
+    levelUp();
     return;
   }
   
